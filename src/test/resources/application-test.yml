@@ -1,0 +1,10 @@
+# Test configuration
+jwt:
+  secret: dGVzdC1zZWNyZXQta2V5LWZvci11bml0LXRlc3RzLTI1Ni1iaXRzLW1pbmltdW0=
+  expiration: 900000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geoloc
+    username: postgres
+    password: postgres
