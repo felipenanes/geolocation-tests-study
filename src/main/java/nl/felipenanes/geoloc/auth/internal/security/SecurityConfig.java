@@ -1,6 +1,7 @@
 package nl.felipenanes.geoloc.auth.internal.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,13 +21,15 @@ class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @SneakyThrows
+    SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**", "/error",
                         "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html",
-                        "/swagger-resources/**", "/webjars/**").permitAll()
+                        "/swagger-resources/**", "/webjars/**", 
+                        "/actuator/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

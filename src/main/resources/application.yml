@@ -23,7 +23,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -45,17 +45,31 @@ jwt:
   secret: bWluaGEtY2hhdmUtc2VjcmV0YS1zdXBlci1zZWd1cmEtY29tLTI1Ni1iaXRz
   expiration: 900000
 
-# Redis Configuration
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      timeout: 2000ms
-  cache:
-    type: redis
-    redis:
-      time-to-live: 3600000 # 1 hour
-      cache-null-values: false
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env,httptrace,loggers
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    metrics:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5,0.95,0.99
+    tags:
+      application: geoloc
+
 
 # DevTools Configuration
   devtools:
@@ -67,5 +81,3 @@ logging:
   level:
     org.springframework.security: INFO
     nl.felipenanes.geoloc: INFO
-    org.springframework.cache: INFO
-    org.springframework.data.redis: INFO

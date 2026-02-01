@@ -209,7 +209,6 @@ logging:
     org.springframework.security: INFO
     nl.felipenanes.geoloc: INFO
     org.springframework.cache: INFO
-    org.springframework.data.redis: INFO
 ```
 
 ### **📊 Logging Structure**
@@ -271,6 +270,42 @@ docker-compose up -d postgres
 - **API Base**: `http://localhost:8080`
 - **Swagger UI**: `http://localhost:8080/swagger-ui.html`
 - **Health Check**: `http://localhost:8080/actuator/health`
+
+### **📊 Monitoring**
+
+```bash
+# Start application with monitoring endpoints
+docker-compose up --build
+
+# Access monitoring endpoints
+- Health: http://localhost:8080/actuator/health
+- Metrics: http://localhost:8080/actuator/metrics
+- Prometheus Export: http://localhost:8080/actuator/prometheus
+- All Endpoints: http://localhost:8080/actuator
+```
+
+**📈 Available Metrics:**
+
+The application exports comprehensive metrics through Spring Boot Actuator:
+
+- **HTTP Metrics**: Request latency, rate, status codes
+- **JVM Metrics**: Memory usage, GC performance, threads
+- **Database Metrics**: Connection pool, query performance
+- **Security Metrics**: Authentication events, filter performance
+- **Custom Metrics**: Business operations and events
+
+**🔮 Future Enhancements:**
+
+- **Prometheus Integration**: Centralized metrics collection and storage
+- **Grafana Dashboards**: Professional monitoring visualization
+- **Alerting**: Automated notifications for critical metrics
+- **Distributed Tracing**: Request flow across services
+
+**To add Prometheus monitoring:**
+1. Deploy Prometheus server
+2. Configure scrape target: `http://app:8080/actuator/prometheus`
+3. Set up Grafana with Prometheus datasource
+4. Import Spring Boot dashboards (ID: 4701, 4700)
 
 ### **🔐 Authentication**
 
@@ -382,7 +417,8 @@ public LdapAuthenticationProvider ldapAuthenticationProvider() {
 ### **🚀 DevOps & Infrastructure**
 
 - **🔄 CI/CD Pipeline**: GitHub Actions
-- **📊 Monitoring**: Actuator <- Prometheus -> Grafana
+- **📊 Monitoring**: Spring Boot Actuator endpoints
+- **🔮 Future**: Prometheus + Grafana integration
 - **🔔 Alerts**: Automated notifications
 
 ### **🧪 Testing & Quality**
