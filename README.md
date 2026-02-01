@@ -1,6 +1,6 @@
 # 🌍 GeoLoc API - Store Location Finder
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/felipenanes/locations-study-test)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/felipenanes/geolocation-tests-study)
 [![Java Version](https://img.shields.io/badge/java-17-orange.svg)](https://openjdk.java.net/projects/jdk/17/)
 [![Spring Boot](https://img.shields.io/badge/spring%20boot-4.1.0.M1-green.svg)](https://spring.io/projects/spring-boot)
 [![Test Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](#test-coverage)
@@ -208,7 +208,6 @@ logging:
   level:
     org.springframework.security: INFO
     nl.felipenanes.geoloc: INFO
-    org.springframework.cache: INFO
 ```
 
 ### **📊 Logging Structure**
@@ -217,7 +216,6 @@ logging:
 |------------|-------|-------------|
 | **Security** | INFO | Authentication flows |
 | **Business** | INFO | Business operations |
-| **Cache** | INFO | Cache operations |
 | **Database** | INFO | SQL queries (formatted) |
 
 ## 📖 SpringDoc OpenAPI
@@ -249,7 +247,7 @@ public OpenAPI customOpenAPI() {
                 .bearerFormat("JWT")))
         .externalDocs(new ExternalDocumentation()
             .description("GeoLoc API Documentation")
-            .url("https://github.com/felipenanes/locations-study-test"));
+            .url("https://github.com/felipenanes/geolocation-tests-study"));
 }
 ```
 
@@ -376,25 +374,7 @@ jwt:
 
 ### **🔐 Authentication Enhancements**
 
-```java
-// TODO: Future improvement - OAuth2 Authentication Provider
-// Uncomment to enable social login (Google, GitHub, etc.)
-/*
-@Bean
-public OAuth2AuthenticationProvider oauth2AuthenticationProvider() {
-    // Implementation for OAuth2 providers
-}
-*/
-
-// TODO: Future improvement - LDAP Authentication Provider
-// Uncomment to enable Active Directory/LDAP authentication
-/*
-@Bean
-public LdapAuthenticationProvider ldapAuthenticationProvider() {
-    // Implementation for LDAP integration
-}
-*/
-```
+OAuth2 and LDAP authentication providers are documented in `AuthenticationProviderBundleConfig.java` as future improvements with detailed implementation examples.
 
 ### **📱 Mobile & API Enhancements**
 
@@ -416,10 +396,27 @@ public LdapAuthenticationProvider ldapAuthenticationProvider() {
 
 ### **🚀 DevOps & Infrastructure**
 
-- **🔄 CI/CD Pipeline**: GitHub Actions
+- **🔄 CI Pipeline**: GitHub Actions (build, test, coverage)
 - **📊 Monitoring**: Spring Boot Actuator endpoints
 - **🔮 Future**: Prometheus + Grafana integration
 - **🔔 Alerts**: Automated notifications
+
+### **🔄 CI Pipeline**
+
+**Triggers:**
+- Push to `dev` or `master` branches
+- Pull requests to `dev` or `master`
+
+**Jobs:**
+- **Test**: Unit + Integration tests with PostgreSQL
+- **Build**: Application compilation and packaging
+- **Coverage**: Jacoco reports with Codecov integration
+
+**Purpose:**
+- Validate code quality before merging
+- Ensure all tests pass
+- Generate coverage reports
+- Prevent broken code in main branches
 
 ### **🧪 Testing & Quality**
 

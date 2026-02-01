@@ -41,7 +41,7 @@ public class OpenApiConfig {
                 )
                 .externalDocs(new ExternalDocumentation()
                         .description("GeoLoc API Documentation")
-                        .url("https://github.com/felipenanes/locations-study-test"));
+                        .url("https://github.com/felipenanes/geolocation-tests-study"));
     }
 
     private Info apiInfo() {
@@ -52,7 +52,7 @@ public class OpenApiConfig {
                 .contact(new Contact()
                         .name("Felipe Nanes")
                         .email("felipe.nanes@example.com")
-                        .url("https://github.com/felipenanes/locations-study-test")
+                        .url("https://github.com/felipenanes/geolocation-tests-study")
                 )
                 .license(new License()
                         .name("MIT License")
