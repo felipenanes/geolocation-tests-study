@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ dev, master ]
+    branches: [ main, dev, master ]
     paths:
       - 'src/**/*.java'
       - 'src/**/*.yml'
@@ -13,8 +13,9 @@ on:
       - 'gradlew'
       - 'gradle/**'
       - '.github/workflows/ci.yml'
+      - 'README.md'
   pull_request:
-    branches: [ dev, master ]
+    branches: [ main, dev, master ]
     paths:
       - 'src/**/*.java'
       - 'src/**/*.yml'
@@ -25,6 +26,7 @@ on:
       - 'gradlew'
       - 'gradle/**'
       - '.github/workflows/ci.yml'
+      - 'README.md'
 
 jobs:
   test:
