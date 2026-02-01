@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     default User findByEmailOrThrow(String email) {
         return findByEmail(email).orElseThrow(
-            () -> new UsernameNotFoundException("User not found with email: " + email)
+            () -> new UsernameNotFoundException("User not found with email: " + email) //TODO: Extract message
         );
     }
 

@@ -138,8 +138,6 @@ sequenceDiagram
 |------|-----------|----------|----------|
 | **Unit** | JUnit 5 + Mockito | Individual classes | Services, Controllers, Mappers |
 | **Integration** | Spring Boot Test | Complete flows | AuthControllerIntegrationTest |
-| **Repository** | Spring Data Test | Data layer | StoreRepository, UserRepository |
-| **Entity** | JPA Test | JPA entities | StoreEntityTest |
 
 ### **🔧 Jacoco Configuration**
 
@@ -208,27 +206,20 @@ CREATE TABLE stores (
 ```yaml
 logging:
   level:
-    org.springframework.security: DEBUG
-    nl.felipenanes.geoloc: DEBUG
-    org.springframework.cache: DEBUG
-    org.springframework.data.redis: DEBUG
+    org.springframework.security: INFO
+    nl.felipenanes.geoloc: INFO
+    org.springframework.cache: INFO
+    org.springframework.data.redis: INFO
 ```
 
 ### **📊 Logging Structure**
 
 | Component | Level | Information |
 |------------|-------|-------------|
-| **Security** | DEBUG | Authentication flows |
-| **Business** | DEBUG | Business operations |
-| **Cache** | DEBUG | Cache operations |
+| **Security** | INFO | Authentication flows |
+| **Business** | INFO | Business operations |
+| **Cache** | INFO | Cache operations |
 | **Database** | INFO | SQL queries (formatted) |
-
-### **🛡️ Security Logging**
-
-- Failed login attempts
-- Generated JWT tokens
-- Protected endpoint access
-- Input validations
 
 ## 📖 SpringDoc OpenAPI
 
@@ -372,30 +363,26 @@ public LdapAuthenticationProvider ldapAuthenticationProvider() {
 
 ### **📱 Mobile & API Enhancements**
 
-- **🔄 Rate Limiting**: Implement request rate limiting
-- **📱 Mobile API**: Mobile-optimized endpoints
+- **🔄 Rate Limiting**: Implement request rate limiting (SlidingWindow or Bucketing)
+- **📱 Mobile API**: Mobile-optimized endpoints (BFF)
 - **🌐 Internationalization**: Multi-language support
 - **📊 Analytics**: Usage metrics API
 
 ### **🗄️ Database & Performance**
 
-- **🚀 Redis Caching**: Distributed cache for frequent queries
-- **📈 Database Sharding**: Partitioning for large volumes
-- **🔍 Full-text Search**: Elasticsearch for advanced search
-- **📊 Data Analytics**: Metrics dashboards
+- **📊 Data Analytics**: Metrics dashboards (CPU, TPS, Memory, etc.)
 
 ### **🔒 Security & Compliance**
 
-- **🛡️ API Security**: OWASP Top 10 compliance
-- **📝 Audit Logging**: Complete audit logs
-- **🔐 Multi-tenant**: Multi-customer support
+- **📝 Audit Logging**: Complete audit logs (CrDeUp)
+- **🔐 Multi-tenant**: Multi-customer support (Other Clients)
 - **📋 GDPR Compliance**: Privacy compliance
+- **📋 Traceability**: Trace-ID (Caller) & Span-ID (Local)
 
 ### **🚀 DevOps & Infrastructure**
 
-- **☸️ Kubernetes**: Container deployment
 - **🔄 CI/CD Pipeline**: GitHub Actions
-- **📊 Monitoring**: Prometheus + Grafana
+- **📊 Monitoring**: Actuator <- Prometheus -> Grafana
 - **🔔 Alerts**: Automated notifications
 
 ### **🧪 Testing & Quality**

@@ -1,7 +1,6 @@
 package nl.felipenanes.geoloc.locations.internal.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import nl.felipenanes.geoloc.locations.internal.exception.StoreNotFoundException;
 import nl.felipenanes.geoloc.locations.internal.mapper.StoreMapper;
 import nl.felipenanes.geoloc.locations.internal.repository.StoreProjection;
 import nl.felipenanes.geoloc.locations.internal.repository.StoreRepository;
@@ -23,12 +22,9 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreResponse> findNearestStores(StoreRequest request) {
         double userLat = request.latitude().doubleValue();
         double userLon = request.longitude().doubleValue();
+        int limit = request.limitOrDefault();
 
-        List<StoreProjection> nearestStores = storeRepository.findNearestStores(userLat, userLon);
-
-        if (nearestStores == null || nearestStores.isEmpty()) {
-            throw new StoreNotFoundException("No stores available");
-        }
+        List<StoreProjection> nearestStores = storeRepository.findNearestStoresOrThrow(userLat, userLon, limit);
 
         return storeMapper.toResponse(nearestStores);
     }

@@ -3,6 +3,7 @@ package nl.felipenanes.geoloc.shared.internal.exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+
 @RequiredArgsConstructor
 public final class ProblemDetailHelper {
 

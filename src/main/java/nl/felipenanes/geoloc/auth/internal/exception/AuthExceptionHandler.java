@@ -21,7 +21,7 @@ class AuthExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     ProblemDetail handleBadCredentials() {
-        log.warn("Authentication failed: invalid credentials");
+        log.error("Authentication failed: invalid credentials");
         return ProblemDetailHelper.create(
             HttpStatus.UNAUTHORIZED,
             msg("auth.error.authentication_failed.title"),

@@ -19,7 +19,7 @@ public class LocationsExceptionHandler {
 
     @ExceptionHandler(StoreNotFoundException.class)
     ProblemDetail handleStoreNotFound(StoreNotFoundException ex) {
-        log.warn("Store not found: {}", ex.getMessage());
+        log.error("Store not found: {}", ex.getMessage());
         return ProblemDetailHelper.create(
             HttpStatus.NOT_FOUND,
             msg("locations.error.store_not_found.title"),

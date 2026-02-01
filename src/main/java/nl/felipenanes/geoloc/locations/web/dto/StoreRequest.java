@@ -3,6 +3,8 @@ package nl.felipenanes.geoloc.locations.web.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -19,13 +21,26 @@ public record StoreRequest(
     @NotNull(message = "{validation.longitude.required}")
     @DecimalMin(value = ValidationConstants.LONGITUDE_MIN, message = "{validation.longitude.min}")
     @DecimalMax(value = ValidationConstants.LONGITUDE_MAX, message = "{validation.longitude.max}")
-    BigDecimal longitude
+    BigDecimal longitude,
+
+    @Schema(description = "Number of stores to return", example = "10", defaultValue = "5")
+    @Min(value = ValidationConstants.LIMIT_MIN, message = "{validation.limit.min}")
+    @Max(value = ValidationConstants.LIMIT_MAX, message = "{validation.limit.max}")
+    Integer limit
 ) {
+
+    private static final int DEFAULT_LIMIT = 5;
+
+    public int limitOrDefault() {
+        return limit != null ? limit : DEFAULT_LIMIT;
+    }
 
     private static final class ValidationConstants {
         static final String LATITUDE_MIN = "-90.0";
         static final String LATITUDE_MAX = "90.0";
         static final String LONGITUDE_MIN = "-180.0";
         static final String LONGITUDE_MAX = "180.0";
+        static final int LIMIT_MIN = 1;
+        static final int LIMIT_MAX = 100;
     }
 }
