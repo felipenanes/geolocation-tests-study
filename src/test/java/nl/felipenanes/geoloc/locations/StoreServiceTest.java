@@ -15,12 +15,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,10 +41,7 @@ class StoreServiceTest {
     @BeforeEach
     void setUp() {
         storeService = new StoreServiceImpl(storeRepository, storeMapper);
-        validRequest = new StoreRequest(
-                new BigDecimal("52.370216"), 
-                new BigDecimal("4.895168")
-        );
+        validRequest = TestDataLoader.validRequest();
     }
 
     @Test
@@ -53,9 +51,9 @@ class StoreServiceTest {
         List<StoreProjection> projections = TestDataLoader.fiveStoreProjections();
         List<StoreResponse> expectedResponses = TestDataLoader.fiveStoreResponses();
         
-        when(storeRepository.findNearestStores(any(Double.class), any(Double.class)))
+        when(storeRepository.findNearestStoresOrThrow(anyDouble(), anyDouble(), anyInt()))
                 .thenReturn(projections);
-        when(storeMapper.toResponse(projections))
+        when(storeMapper.toResponse(anyList()))
                 .thenReturn(expectedResponses);
 
         // When
@@ -68,22 +66,21 @@ class StoreServiceTest {
         assertThat(result.get(0).city()).isNotNull();
         assertThat(result.get(0).distanceKm()).isNotNull();
         
-        verify(storeRepository).findNearestStores(52.370216, 4.895168);
-        verify(storeMapper).toResponse(projections);
+        verify(storeRepository).findNearestStoresOrThrow(52.3730796, 4.8924534, 5);
     }
 
     @Test
     @DisplayName("Should throw StoreNotFoundException when no stores available")
     void findNearestStores_shouldThrowException_whenNoStoresAvailable() {
         // Given
-        when(storeRepository.findNearestStores(any(Double.class), any(Double.class)))
-                .thenReturn(List.of());
+        when(storeRepository.findNearestStoresOrThrow(anyDouble(), anyDouble(), anyInt()))
+                .thenThrow(new StoreNotFoundException("No stores available"));
 
         // When & Then
         assertThatThrownBy(() -> storeService.findNearestStores(validRequest))
                 .isInstanceOf(StoreNotFoundException.class)
                 .hasMessage("No stores available");
         
-        verify(storeRepository).findNearestStores(52.370216, 4.895168);
+        verify(storeRepository).findNearestStoresOrThrow(52.3730796, 4.8924534, 5);
     }
 }

@@ -7,18 +7,17 @@ import nl.felipenanes.geoloc.locations.internal.service.StoreService;
 import nl.felipenanes.geoloc.locations.web.controller.StoreController;
 import nl.felipenanes.geoloc.locations.web.dto.StoreRequest;
 import nl.felipenanes.geoloc.locations.web.dto.StoreResponse;
-import org.springframework.context.MessageSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -55,10 +54,7 @@ class StoreControllerTest {
                 .setControllerAdvice(exceptionHandler)
                 .build();
 
-        validRequest = new StoreRequest(
-                new BigDecimal("52.370216"), 
-                new BigDecimal("4.895168")
-        );
+        validRequest = TestDataLoader.validRequest();
 
         mockResponse = new ArrayList<>(TestDataLoader.fiveStoreResponses());
     }

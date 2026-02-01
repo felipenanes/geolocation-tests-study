@@ -23,12 +23,11 @@ RESTful API for finding nearest stores based on geographic coordinates with JWT 
 
 ### **Security & Authentication**
 - **JWT (JSON Web Tokens)** - Stateless authentication
-- **JJWT 0.12.5** - JWT library
 - **BCrypt** - Password hashing
 
 ### **Geographic & Spatial**
-- **JTS (Java Topology Suite) 1.19.0** - Geospatial operations
-- **PostGIS** - PostgreSQL geographic extension
+
+- **PostGIS** - PostgreSQL geographic extension (GIST Index)
 
 ### **API Documentation**
 - **SpringDoc OpenAPI 2.7.0** - Automatic documentation
@@ -124,14 +123,6 @@ sequenceDiagram
     S-->>C: Stores with distance + 200 OK
 ```
 
-## 🧪 Test Coverage
-
-### **📊 Coverage Metrics**
-- **Total Coverage**: 100%
-- **Line Coverage**: 100%
-- **Method Coverage**: 100%
-- **Branch Coverage**: 100%
-
 ### **🎯 Testing Strategy**
 
 | Type | Framework | Coverage | Examples |
@@ -153,7 +144,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.0
+                minimum = 80.0
             }
         }
     }
@@ -169,35 +160,6 @@ src/main/resources/db/migration/
 ├── V1__create_complete_schema.sql     # Initial schema
 └── V2__load_stores_data.sql           # Sample data
 ```
-
-### **🔍 Main Schema**
-
-```sql
--- Users table
-CREATE TABLE users (
-    uuid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL
-);
-
--- Stores table with PostGIS
-CREATE TABLE stores (
-    uuid UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    city VARCHAR(255) NOT NULL,
-    postal_code VARCHAR(20) NOT NULL,
-    street VARCHAR(255) NOT NULL,
-    location GEOMETRY(POINT, 4326) NOT NULL,
-    -- ... other fields
-);
-```
-
-### **🚀 Automatic Execution**
-
-- **Baseline-on-migrate**: `true`
-- **Validate-on-migrate**: `true`
-- **Clean-disabled**: `true` (production protection)
 
 ## 📝 Logging
 
@@ -233,24 +195,6 @@ logging:
 | `/api/v1/auth/login` | POST | User authentication | ❌ Public |
 | `/api/v1/stores/nearest` | GET | Find nearest stores | ✅ JWT |
 
-### **🎨 Customization**
-
-```java
-@Bean
-public OpenAPI customOpenAPI() {
-    return new OpenAPI()
-        .info(apiInfo())
-        .components(new Components()
-            .addSecuritySchemes("bearer-jwt", new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT")))
-        .externalDocs(new ExternalDocumentation()
-            .description("GeoLoc API Documentation")
-            .url("https://github.com/felipenanes/geolocation-tests-study"));
-}
-```
-
 ## 🚀 Running the Application
 
 ### **🐳 Docker Compose**
@@ -278,7 +222,6 @@ docker-compose up --build
 # Access monitoring endpoints
 - Health: http://localhost:8080/actuator/health
 - Metrics: http://localhost:8080/actuator/metrics
-- Prometheus Export: http://localhost:8080/actuator/prometheus
 - All Endpoints: http://localhost:8080/actuator
 ```
 
@@ -291,19 +234,6 @@ The application exports comprehensive metrics through Spring Boot Actuator:
 - **Database Metrics**: Connection pool, query performance
 - **Security Metrics**: Authentication events, filter performance
 - **Custom Metrics**: Business operations and events
-
-**🔮 Future Enhancements:**
-
-- **Prometheus Integration**: Centralized metrics collection and storage
-- **Grafana Dashboards**: Professional monitoring visualization
-- **Alerting**: Automated notifications for critical metrics
-- **Distributed Tracing**: Request flow across services
-
-**To add Prometheus monitoring:**
-1. Deploy Prometheus server
-2. Configure scrape target: `http://app:8080/actuator/prometheus`
-3. Set up Grafana with Prometheus datasource
-4. Import Spring Boot dashboards (ID: 4701, 4700)
 
 ### **🔐 Authentication**
 
@@ -387,10 +317,17 @@ OAuth2 and LDAP authentication providers are documented in `AuthenticationProvid
 
 - **📊 Data Analytics**: Metrics dashboards (CPU, TPS, Memory, etc.)
 
+### **📊 Monitoring & Metrics**
+
+- **Prometheus Integration**: Centralized metrics collection and storage
+- **Grafana Dashboards**: Professional monitoring visualization
+- **Alerting**: Automated notifications for critical metrics
+- **Distributed Tracing**: Request flow across services
+
 ### **🔒 Security & Compliance**
 
 - **📝 Audit Logging**: Complete audit logs (CrDeUp)
-- **🔐 Multi-tenant**: Multi-customer support (Other Clients)
+- **🔐 Multi-tenant**: Multi-client support
 - **📋 GDPR Compliance**: Privacy compliance
 - **📋 Traceability**: Trace-ID (Caller) & Span-ID (Local)
 
@@ -410,20 +347,13 @@ OAuth2 and LDAP authentication providers are documented in `AuthenticationProvid
 **Jobs:**
 - **Test**: Unit + Integration tests with PostgreSQL
 - **Build**: Application compilation and packaging
-- **Coverage**: Jacoco reports with Codecov integration
+- **Coverage**: Jacoco reports 80% Ruling
 
 **Purpose:**
 - Validate code quality before merging
 - Ensure all tests pass
 - Generate coverage reports
 - Prevent broken code in main branches
-
-### **🧪 Testing & Quality**
-
-- **🔄 E2E Tests**: Automated end-to-end tests
-- **📈 Performance Tests**: Load testing
-- **🔍 Security Tests**: Security testing
-- **📊 Contract Tests**: API contract testing
 
 ---
 

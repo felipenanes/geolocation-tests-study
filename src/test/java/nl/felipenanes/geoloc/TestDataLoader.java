@@ -1,5 +1,6 @@
 package nl.felipenanes.geoloc;
 
+import nl.felipenanes.geoloc.locations.web.dto.StoreRequest;
 import nl.felipenanes.geoloc.locations.web.dto.StoreResponse;
 import nl.felipenanes.geoloc.locations.internal.entity.Store;
 import nl.felipenanes.geoloc.locations.internal.repository.StoreProjection;
@@ -21,70 +22,6 @@ public class TestDataLoader {
                 .street("Damrak")
                 .latitude(new BigDecimal("52.3730796"))
                 .longitude(new BigDecimal("4.8924534"))
-                .locationType("SUPERMARKET")
-                .collectionPoint(true)
-                .todayOpen("08:00")
-                .todayClose("22:00")
-                .showWarningMessage(false);
-    }
-
-    public static Store.StoreBuilder storeRotterdam() {
-        return Store.builder()
-                .uuid(UUID.fromString("660e8400-e29b-41d4-a716-446655440001"))
-                .addressName("Rotterdam Central")
-                .city("Rotterdam")
-                .postalCode("3011 AD")
-                .street("Stationsplein")
-                .latitude(new BigDecimal("51.9244201"))
-                .longitude(new BigDecimal("4.4777329"))
-                .locationType("SUPERMARKET")
-                .collectionPoint(true)
-                .todayOpen("08:00")
-                .todayClose("22:00")
-                .showWarningMessage(false);
-    }
-
-    public static Store.StoreBuilder storeUtrecht() {
-        return Store.builder()
-                .uuid(UUID.fromString("770e8400-e29b-41d4-a716-446655440002"))
-                .addressName("Utrecht Central")
-                .city("Utrecht")
-                .postalCode("3511 AX")
-                .street("Stationsplein")
-                .latitude(new BigDecimal("52.0894441"))
-                .longitude(new BigDecimal("5.1077468"))
-                .locationType("CONVENIENCE")
-                .collectionPoint(false)
-                .todayOpen("07:00")
-                .todayClose("21:00")
-                .showWarningMessage(false);
-    }
-
-    public static Store.StoreBuilder storeDenBosch() {
-        return Store.builder()
-                .uuid(UUID.fromString("770e8400-e29b-41d4-a716-446655433002"))
-                .addressName("'s-Hertogenbosch Central Station")
-                .city("'s-Hertogenbosch")
-                .postalCode("5211 XC")
-                .street("Stationsplein 1")
-                .latitude(new BigDecimal("51.690583"))
-                .longitude(new BigDecimal("5.291372"))
-                .locationType("CONVENIENCE")
-                .collectionPoint(true)
-                .todayOpen("06:00")
-                .todayClose("23:00")
-                .showWarningMessage(false);
-    }
-
-    public static Store.StoreBuilder storeEindhoven() {
-        return Store.builder()
-                .uuid(UUID.fromString("770e8400-e29b-41d4-a716-446655442502"))
-                .addressName("Eindhoven Central Station")
-                .city("Eindhoven")
-                .postalCode("5611 AB")
-                .street("Stationsplein 15")
-                .latitude(new BigDecimal("51.441664"))
-                .longitude(new BigDecimal("5.476461"))
                 .locationType("SUPERMARKET")
                 .collectionPoint(true)
                 .todayOpen("08:00")
@@ -477,4 +414,18 @@ public class TestDataLoader {
             public Double getDistanceMeters() { return distanceMeters; }
         };
     }
+
+    // StoreRequest factory methods
+    public static StoreRequest amsterdamRequest() {
+        return new StoreRequest(
+                new BigDecimal("52.3730796"), 
+                new BigDecimal("4.8924534"),
+                5
+        );
+    }
+
+    public static StoreRequest validRequest() {
+        return amsterdamRequest();
+    }
+
 }
